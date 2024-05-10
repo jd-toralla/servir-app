@@ -7,6 +7,7 @@ function Departamento() {
     const httpClientService = useMemo(() => new HttpClientService(), []);
     const [errores, setErrores] = useState({});
     const [departamentos, setDepartamentos] = useState([]);
+    const [flagEdit, setFlagEdit] = useState(false)
     const [departamento, setDepartamento] = useState({
         codigo: '',
         nombre: '',
@@ -63,7 +64,7 @@ function Departamento() {
         if (departamentos.some(dep => dep.codigo === departamento.codigo)) {
             // Actualizar departamento existente
             httpClientService.put(`departamentos/${departamento.codigo}`, departamento).then(res => {
-                console.log('RESPUESTA EDITAR'.res);
+                
                 if (!res.error) {
                     messageAlert('Correcto', 'Departamento actualizado', 2000, 'success');
                     listarDepartamentos();
@@ -71,6 +72,7 @@ function Departamento() {
                 } else {
                     messageAlert('Error', res.error, 2000, 'error');
                 }
+                setFlagEdit(false)
             });
         } else {
 
@@ -79,11 +81,13 @@ function Departamento() {
                 if (!res.error) {
                     messageAlert('Correcto', res.message, 2000, 'success');
                     listarDepartamentos();
+                    setFlagEdit(false)
                     setDepartamento({ codigo: '', nombre: '', descripcion: '' });  // Limpiar formulario
                 } else {
                     messageAlert('Error', res.error, 2000, 'error');
                 }
             });
+            setFlagEdit(false)
         }
     };
 
@@ -100,6 +104,7 @@ function Departamento() {
     }
 
     const cargarDatosDepartamento = (dep) => {
+        setFlagEdit(true)
         setDepartamento({
             codigo: dep.codigo,
             nombre: dep.nombre,
@@ -109,6 +114,7 @@ function Departamento() {
     };
 
     const cancelarEdicion = () => {
+        setFlagEdit(false)
         setDepartamento({
             codigo: '',
             nombre: '',
@@ -160,7 +166,7 @@ function Departamento() {
                                 value={departamento.codigo}
                                 onChange={handleChange}
                                 aria-describedby="codigoHelp"
-                                disabled={departamento.codigo !== ''}
+                                disabled={flagEdit}
                             />
                             {errores.codigo && <div id="codigoHelp" className="form-text text-danger">{errores.codigo}</div>}
                         </div>
@@ -188,9 +194,9 @@ function Departamento() {
                             ></textarea>
                         </div>
                         <button type="submit" className="btn btn-info w-100">
-                            {departamento.codigo ? 'Actualizar Departamento' : 'Agregar Departamento'}
+                            {flagEdit ? 'Actualizar Departamento' : 'Agregar Departamento'}
                         </button>
-                        {departamento.codigo && (
+                        {flagEdit && (
                             <button type="button" className="btn btn-secondary w-100 mt-2" onClick={cancelarEdicion}>
                                 Cancelar Edición
                             </button>

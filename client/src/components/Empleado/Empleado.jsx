@@ -84,7 +84,7 @@ function Empleado() {
 
         const method = empleado.codigo ? 'put' : 'post';
         const url = empleado.codigo ? `empleados/${empleado.codigo}` : 'empleados';
-        
+
         httpClientService[method](url, empleado).then(res => {
             if (!res.error) {
                 messageAlert('Correcto', res.message, 2000, 'success');
@@ -155,7 +155,7 @@ function Empleado() {
                 <section className='col-4'>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
-                            <label htmlFor="nombres" className="form-label">Nombres</label>
+                            <label htmlFor="nombres" className="form-label h5"><strong>Nombres</strong></label>
                             <input
                                 type="text"
                                 className="form-control"
@@ -167,7 +167,7 @@ function Empleado() {
                             {errores.nombres && <div className="text-danger">{errores.nombres}</div>}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="apellidos" className="form-label">Apellidos</label>
+                            <label htmlFor="apellidos" className="form-label h5"><strong>Apellidos</strong></label>
                             <input
                                 type="text"
                                 className="form-control"
@@ -179,7 +179,7 @@ function Empleado() {
                             {errores.apellidos && <div className="text-danger">{errores.apellidos}</div>}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="departamentoId" className="form-label">Departamento</label>
+                            <label htmlFor="departamentoId" className="form-label h5"><strong>Departamento</strong></label>
                             <select
                                 className="form-control"
                                 id="departamentoId"
@@ -195,7 +195,7 @@ function Empleado() {
                             {errores.departamentoId && <div className="text-danger">{errores.departamentoId}</div>}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="fechaNacimiento" className="form-label">Fecha de Nacimiento</label>
+                            <label htmlFor="fechaNacimiento" className="form-label h5"><strong>Fecha de Nacimiento</strong></label>
                             <input
                                 type="date"
                                 className="form-control"
